@@ -98,9 +98,7 @@ if __name__ == "__main__":
     run_motors_timed(mav_connection, seconds=2, motor_settings=[0, 0, 0, 0, 0, 0]) # pause
     run_motors_timed(mav_connection, seconds=3.5, motor_settings=[-100, 100, 100, -100, 0, 0]) # turn
     letter_U()
-    run_motors_timed(mav_connection, seconds=1.4, motor_settings=[100, -100, -100, 100, 0, 0]) # turn
-    run_motors_timed(mav_connection, seconds=4.5, motor_settings=[-100, -100, 50, 50, 0, 0]) # forward
-    run_motors_timed(mav_connection, seconds=1.1, motor_settings=[100, -100, -100, 100, 0, 0]) # turn
+    run_motors_timed(mav_connection, seconds=2.5, motor_settings=[100, -100, -100, 100, 0, 0]) # turn
 
     letter_V()
 
