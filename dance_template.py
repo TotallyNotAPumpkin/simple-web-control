@@ -38,16 +38,22 @@ def run_motors_timed(mav_connection, seconds: int, motor_settings: list) -> None
 
 def letter_A():
     # run_motors_timed(mav_connection, seconds = 2.5, motor_settings=[100, -100, -100, 100, 0, 0])
-    run_motors_timed(mav_connection, seconds = 8, motor_settings=[-100, -100, 100, 100, 0, 0])
+    run_motors_timed(mav_connection, seconds = 10, motor_settings=[-100, -100, 100, 100, 0, 0])
     run_motors_timed(mav_connection, seconds = 3.4, motor_settings=[100, -100, -100, 100, 0, 0])
     run_motors_timed(mav_connection, seconds = 0.4, motor_settings=[0, 0, 0, 0, 0, 0])
-    run_motors_timed(mav_connection, seconds = 8, motor_settings=[-100, -98, 100, 100, 0, 0])
+    run_motors_timed(mav_connection, seconds = 10, motor_settings=[-100, -99, 100, 100, 0, 0])
+
+def letter_V():
+    run_motors_timed(mav_connection, seconds = 10, motor_settings=[-100, -100, 100, 100, 0, 0])
+    run_motors_timed(mav_connection, seconds = 2.9, motor_settings=[-100, 100, 100, -100, 0, 0])
+    run_motors_timed(mav_connection, seconds = 0.4, motor_settings=[0, 0, 0, 0, 0, 0])
+    run_motors_timed(mav_connection, seconds = 10, motor_settings=[-100, -100, 100, 100, 0, 0])
 
 def letter_U():
     run_motors_timed(mav_connection, seconds=7, motor_settings=[-100,-100 ,100 ,100, 0, 0])
     run_motors_timed(mav_connection, seconds=7, motor_settings=[-100, -85, 100, 85, 0, 0])
     run_motors_timed(mav_connection, seconds=0.5, motor_settings=[-100, 100, 100, -100, 0, 0])
-    run_motors_timed(mav_connection, seconds=8.8, motor_settings=[-100,-100 ,100 ,100, 0, 0])
+    run_motors_timed(mav_connection, seconds=8.4, motor_settings=[-100,-100 ,100 ,100, 0, 0])
 
 def letter_M():
     run_motors_timed(mav_connection, seconds = 8, motor_settings=[-100, -100, 100, 100, 0, 0])
@@ -85,14 +91,18 @@ if __name__ == "__main__":
 
     letter_A()
     run_motors_timed(mav_connection, seconds=2, motor_settings=[0, 0, 0, 0, 0, 0]) # pause
-    run_motors_timed(mav_connection, seconds=1.5, motor_settings=[-100, 100, 100, -100, 0, 0]) # turn
-    run_motors_timed(mav_connection, seconds=3, motor_settings=[-100, -100, 50, 50, 0, 0]) # forward
-    run_motors_timed(mav_connection, seconds=1.5, motor_settings=[-100, 100, 100, -100, 0, 0]) # turn
-    run_motors_timed(mav_connection, seconds=2, motor_settings=[-100, -100, 50, 50, 0, 0]) # forward
+    run_motors_timed(mav_connection, seconds=1.4, motor_settings=[-100, 100, 100, -100, 0, 0]) # turn
+    run_motors_timed(mav_connection, seconds=4.5, motor_settings=[-100, -100, 50, 50, 0, 0]) # forward
+    run_motors_timed(mav_connection, seconds=1.2, motor_settings=[-100, 100, 100, -100, 0, 0]) # turn
+    run_motors_timed(mav_connection, seconds=4.4, motor_settings=[-100, -100, 50, 50, 0, 0]) # forward
     run_motors_timed(mav_connection, seconds=2, motor_settings=[0, 0, 0, 0, 0, 0]) # pause
-    run_motors_timed(mav_connection, seconds=1.5, motor_settings=[-100, 100, 100, -100, 0, 0]) # turn
-
+    run_motors_timed(mav_connection, seconds=3.5, motor_settings=[-100, 100, 100, -100, 0, 0]) # turn
     letter_U()
+    run_motors_timed(mav_connection, seconds=1.4, motor_settings=[100, -100, -100, 100, 0, 0]) # turn
+    run_motors_timed(mav_connection, seconds=4.5, motor_settings=[-100, -100, 50, 50, 0, 0]) # forward
+    run_motors_timed(mav_connection, seconds=1.1, motor_settings=[100, -100, -100, 100, 0, 0]) # turn
+
+    letter_V()
 
     # stop
     run_motors_timed(mav_connection, seconds=5, motor_settings=[0, 0, 0, 0, 0, 0])
