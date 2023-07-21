@@ -36,6 +36,30 @@ def run_motors_timed(mav_connection, seconds: int, motor_settings: list) -> None
         time.sleep(0.2)
         step += 0.2
 
+def letter_A():
+    # run_motors_timed(mav_connection, seconds = 2.5, motor_settings=[100, -100, -100, 100, 0, 0])
+    run_motors_timed(mav_connection, seconds = 8, motor_settings=[-100, -100, 100, 100, 0, 0])
+    run_motors_timed(mav_connection, seconds = 3.4, motor_settings=[100, -100, -100, 100, 0, 0])
+    run_motors_timed(mav_connection, seconds = 0.4, motor_settings=[0, 0, 0, 0, 0, 0])
+    run_motors_timed(mav_connection, seconds = 8, motor_settings=[-100, -98, 100, 100, 0, 0])
+
+def letter_M():
+    run_motors_timed(mav_connection, seconds = 8, motor_settings=[-100, -100, 100, 100, 0, 0])
+    run_motors_timed(mav_connection, seconds = 3, motor_settings=[100, -100, -100, 100, 0, 0])
+    run_motors_timed(mav_connection, seconds = 0.4, motor_settings=[0, 0, 0, 0, 0, 0])
+    run_motors_timed(mav_connection, seconds = 4, motor_settings=[-100, -98, 100, 100, 0, 0])
+    run_motors_timed(mav_connection, seconds = 2.4, motor_settings=[-100, 100, 100, -100, 0, 0])
+    run_motors_timed(mav_connection, seconds = 4, motor_settings=[-100, -98, 100, 100, 0, 0])
+    run_motors_timed(mav_connection, seconds = 3, motor_settings=[100, -100, -100, 100, 0, 0])
+    run_motors_timed(mav_connection, seconds = 8, motor_settings=[-100, -98, 100, 100, 0, 0])
+
+def letter_O():
+    run_motors_timed(mav_connection, seconds = 24, motor_settings=[-60, 30, -58, 70, 0, 0])
+
+def letter_G():
+    run_motors_timed(mav_connection, seconds = 10, motor_settings=[-30, 40, 0, -70, 0, 0])
+ 
+
 if __name__ == "__main__":
     ####
     # Initialize ROV
@@ -52,8 +76,9 @@ if __name__ == "__main__":
     Call sequence of calls to run_timed_motors to execute choreography
     Motors power ranges from -100 to 100
     """
-    run_motors_timed(mav_connection, seconds=5, motor_settings=[100,-100 ,100 ,-100, 0, 0])
-    run_motors_timed(mav_connection, seconds=5, motor_settings=[-100,100 ,-100 ,100, 0, 0])
+
+    letter_O()
+
     # stop
     run_motors_timed(mav_connection, seconds=5, motor_settings=[0, 0, 0, 0, 0, 0])
 
