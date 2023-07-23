@@ -9,7 +9,7 @@ def createSocket():
 
     # socket creation
     socket = skt.socket(addressFamily, protocol)
-
+    socket.setsockopt(skt.SOL_SOCKET, skt.SO_KEEPALIVE, 1)
     # Bind information
     serverIp = "192.168.1.185"
     serverPrt = 6777
