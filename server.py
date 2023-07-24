@@ -21,7 +21,7 @@ def createSocket():
     return socket
 
 # logs request
-def requestProcessor(request, command_queue):
+def requestProcessor(request):
     command, time_str = request.decode().split()
     time = int(time_str)
 
@@ -39,9 +39,6 @@ def requestProcessor(request, command_queue):
     else:
         print("That's not a command.")
         return
-
-    # Put the command into the queue
-    command_queue.append((vector, time))
 
 if __name__ == "__main__":
 
