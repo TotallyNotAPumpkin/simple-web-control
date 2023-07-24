@@ -27,6 +27,10 @@ def requestProcessor(request):
     commandDict = {
         "forward": [-100, -100, 100, 100],
         "backward": [100, 100, -100, -100],
+        "clockwise": [100, -100, -100, 100],
+        "clockwise": [-100, 100, 100, -100],
+        "left": [-100, 100, -100, 100],
+        "right": [100, -100, 100, -100],
         "stop": [0, 0, 0, 0]
     }
     vector = commandDict[command]
