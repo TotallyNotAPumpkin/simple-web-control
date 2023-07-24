@@ -48,20 +48,28 @@ socket = createSocket()
 # listen for incoming connections
 socket.listen()
 
-while True:
-    try:
+try:
+    while True:
         # accept a connection from the client
         conn, addr = socket.accept()
 
-        # receive data
-        request = conn.recv(1024)
+        while True:
+            # receive data
+            request = conn.recv(1024)
 
-        # executes request - (command time)
-        requestProcessor(request)
+            if not request:
+                # If the client closed the connection, break the loop
+                break
 
-    except KeyboardInterrupt:
-        print("Server stopped.")
-        break
+            # executes request - (command time)
+            requestProcessor(request)
+
+        # Close the connection after processing the requests
+        conn.close()
+
+except KeyboardInterrupt:
+    print("Server stopped.")
+
 
 # close the server socket
 socket.close()
