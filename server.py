@@ -20,7 +20,7 @@ def createSocket():
     return socket
 
 # logs request
-def requestProcessor(request):
+def requestProcessor(request, command_queue):
     command, time_str = request.decode().split()
     time = int(time_str)
 
@@ -28,19 +28,19 @@ def requestProcessor(request):
         "forward": [-100, -100, 100, 100],
         "backward": [100, 100, -100, -100],
         "clockwise": [100, -100, -100, 100],
-        "clockwise": [-100, 100, 100, -100],
+        "counter_clockwise": [-100, 100, 100, -100],  # Changed the duplicate key
         "left": [-100, 100, -100, 100],
         "right": [100, -100, 100, -100],
         "stop": [0, 0, 0, 0]
     }
-    vector = commandDict[command]
+    if command in commandDict:
+        vector = commandDict[command]
+    else:
+        print("That's not a command.")
+        return
 
-    # executing request
-    mav_connection = mavutil.mavlink_connection('udpin:0.0.0.0:14550')
-    mav_connection.wait_heartbeat()
-    dance_template.arm_rov(mav_connection)
-    # Arm the ROV and wait for confirmation
-    dance_template.run_motors_timed(mav_connection, seconds=time, motor_settings=vector)
+    # Put the command into the queue
+    command_queue.append((vector, time))
 
 # create socket
 socket = createSocket()
@@ -53,6 +53,9 @@ try:
         # accept a connection from the client
         conn, addr = socket.accept()
 
+        # Create a queue for commands
+        command_queue = []
+
         while True:
             # receive data
             request = conn.recv(1024)
@@ -61,15 +64,22 @@ try:
                 # If the client closed the connection, break the loop
                 break
 
-            # executes request - (command time)
-            requestProcessor(request)
+            # Add the command to the queue
+            requestProcessor(request, command_queue)
+
+        # Process the commands in the queue
+        mav_connection = mavutil.mavlink_connection('udpin:0.0.0.0:14550')
+        mav_connection.wait_heartbeat()
+        dance_template.arm_rov(mav_connection)
+
+        for vector, time in command_queue:
+            dance_template.run_motors_timed(mav_connection, seconds=time, motor_settings=vector)
 
         # Close the connection after processing the requests
         conn.close()
 
 except KeyboardInterrupt:
     print("Server stopped.")
-
 
 # close the server socket
 socket.close()
