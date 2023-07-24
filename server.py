@@ -55,9 +55,6 @@ while True:
         # executes request - (command time)
         requestProcessor(request)
 
-        # close the connection
-        conn.close()
-
     except KeyboardInterrupt:
         print("Server stopped.")
         break
