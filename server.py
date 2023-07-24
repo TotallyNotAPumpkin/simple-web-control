@@ -2,6 +2,7 @@ import socket as skt
 import dance_template
 from pymavlink import mavutil
 
+
 # creates and returns a socket
 def createSocket():
     protocol = skt.SOCK_STREAM  # Protocol = TCP
@@ -11,7 +12,7 @@ def createSocket():
     socket = skt.socket(addressFamily, protocol)
     socket.setsockopt(skt.SOL_SOCKET, skt.SO_KEEPALIVE, 1)
     # Bind information
-    serverIp = "192.168.1.185"
+    serverIp = "10.29.122.55"
     serverPrt = 6777
 
     # Binding port and IP
@@ -42,44 +43,43 @@ def requestProcessor(request, command_queue):
     # Put the command into the queue
     command_queue.append((vector, time))
 
-# create socket
-socket = createSocket()
+if __name__ == "__main__":
 
-# listen for incoming connections
-socket.listen()
+    # create socket
+    socket = createSocket()
 
-try:
-    while True:
-        # accept a connection from the client
-        conn, addr = socket.accept()
+    # listen for incoming connections
+    socket.listen()
 
-        # Create a queue for commands
-        command_queue = []
-
+    try:
         while True:
-            # receive data
-            request = conn.recv(1024)
+            # accept a connection from the client
+            conn, addr = socket.accept()
 
-            if not request:
-                # If the client closed the connection, break the loop
-                break
+            while True:
+                # receive data
+                request = conn.recv(1024, skt.MSG_DONTWAIT)
 
-            # Add the command to the queue
-            requestProcessor(request, command_queue)
+                if not request:
+                    # If the client closed the connection, break the loop
+                    break
 
-        # Process the commands in the queue
-        mav_connection = mavutil.mavlink_connection('udpin:0.0.0.0:14550')
-        mav_connection.wait_heartbeat()
-        dance_template.arm_rov(mav_connection)
+                # Add the command to the queue
+                requestProcessor(request)
 
-        for vector, time in command_queue:
-            dance_template.run_motors_timed(mav_connection, seconds=time, motor_settings=vector)
+            # Process the commands in the queue
+            mav_connection = mavutil.mavlink_connection('udpin:0.0.0.0:14550')
+            mav_connection.wait_heartbeat()
+            dance_template.arm_rov(mav_connection)
+        
+            # Close the connection after processing the requests
+            conn.close()
 
-        # Close the connection after processing the requests
-        conn.close()
+    except KeyboardInterrupt:
+        print("Server stopped.")
 
-except KeyboardInterrupt:
-    print("Server stopped.")
+    # close the server socket
+    socket.close()
 
-# close the server socket
-socket.close()
+
+
