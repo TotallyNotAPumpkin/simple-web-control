@@ -29,7 +29,7 @@ def requestProcessor(request):
         "forward": [-100, -100, 100, 100],
         "backward": [100, 100, -100, -100],
         "clockwise": [100, -100, -100, 100],
-        "counter_clockwise": [-100, 100, 100, -100],  # Changed the duplicate key
+        "counter_clockwise": [-100, 100, 100, -100],  
         "left": [-100, 100, -100, 100],
         "right": [100, -100, 100, -100],
         "stop": [0, 0, 0, 0]
@@ -39,6 +39,12 @@ def requestProcessor(request):
     else:
         print("That's not a command.")
         return
+    
+    mav_connection = mavutil.mavlink_connection('udpin:0.0.0.0:14550')
+    mav_connection.wait_heartbeat()
+    dance_template.arm_rov(mav_connection)
+    dance_template.run_motors_timed(mav_connection, seconds = time, motor_settings=vector)
+    
 
 if __name__ == "__main__":
 
@@ -55,7 +61,7 @@ if __name__ == "__main__":
 
             while True:
                 # receive data
-                request = conn.recv(1024, skt.MSG_DONTWAIT)
+                request = conn.recv(1024)
 
                 if not request:
                     # If the client closed the connection, break the loop
@@ -64,11 +70,6 @@ if __name__ == "__main__":
                 # Add the command to the queue
                 requestProcessor(request)
 
-            # Process the commands in the queue
-            mav_connection = mavutil.mavlink_connection('udpin:0.0.0.0:14550')
-            mav_connection.wait_heartbeat()
-            dance_template.arm_rov(mav_connection)
-        
             # Close the connection after processing the requests
             conn.close()
 
